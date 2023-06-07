@@ -9,8 +9,8 @@
 
     <title>How old are you?</title>
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-    <style type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
         p{
             font-size: 16px;
             line-height: 1.6180em;
@@ -68,7 +68,7 @@
             color: #FFFFFF;
             font-size: 16px;
             top: 20px;
-        }       
+        }
     </style>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
@@ -83,26 +83,26 @@
         </h1>
 
         <div class="content show">
-            <form id="formBirthday" class="form-horizontal col-sm-9 col-sm-offset-1">
-                <div class="form-group" id="row_name">
-                    <label for="inputName" class="col-sm-2 col-form-label col-form-label-lg">Your name</label>
+            <form id="formBirthday" class="form-horizontal col-sm-9 offset-sm-1">
+                <div class="row mb-3" id="row_name">
+                    <label for="inputName" class="col-sm-2 col-form-label">Your name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputName" name="name"></input>
+                        <input type="text" class="form-control" id="inputName" name="name">
                     </div>
                 </div>
-                <div class="form-group" id="row_birthday">
-                    <label for="inputBirthday" class="col-sm-2 col-form-label col-form-label-lg">Your birthday</label>
+                <div class="row mb-3" id="row_birthday">
+                    <label for="inputBirthday" class="col-sm-2 col-form-label">Your birthday</label>
                     <div class="col-sm-10">
-                        <input type="date" class="form-control" id="inputBirthday" name="birthday" placeholder="2021-01-27"></input>
+                        <input type="date" class="form-control" id="inputBirthday" name="birthday" placeholder="2021-01-27">
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" id="submitButton" class="btn btn-default">Submit</button>
+                <div class="row mb-3">
+                    <div class="offset-sm-2 col-sm-10">
+                        <button type="button" id="submitButton" class="btn btn-secondary">Submit</button>
                     </div>
                 </div>
             </form>
-            <div id="resultDiv" class="hidden">
+            <div id="resultDiv" class="visually-hidden">
                 <h1>Hello <span id="resultName"></span>!</h1>
                 <h1>Your age is <span id="resultAge"></span></h1>
             </div>
@@ -111,26 +111,26 @@
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script>
     function handleError(field, reason) {
-        $("#formBirthday .form-group").removeClass("has-error");
-        $("#formBirthday .form-group .help-block").remove();
+        $("#formBirthday .row").removeClass("has-error");
+        $("#formBirthday .row .help-block").remove();
         $("#row_"+field).addClass("has-error");
         $("#row_"+field+" input").attr("aria-describedby", "help_"+field);
         $("#row_"+field+" div").append('<span id="help_'+field+'" class="help-block bg-danger">'+reason+'</span>');
-        return;
-    };
+    }
+
     $('#submitButton').click( function() {
         return $.post("/check.php", $("#formBirthday").serialize(), function(data) {
             if (data["status"] != "OK") {
                 handleError(data["field"], data["reason"]);
             } else {
                 $("#formBirthday").removeClass("show");
-                $("#formBirthday").addClass("hidden");
+                $("#formBirthday").addClass("visually-hidden");
                 $("#resultName").text(data["name"]);
                 $("#resultAge").text(data["age"]);
-                $("#resultDiv").removeClass("hidden");
+                $("#resultDiv").removeClass("visually-hidden");
                 $("#resultDiv").addClass("show");
             }
         }, 'json');
